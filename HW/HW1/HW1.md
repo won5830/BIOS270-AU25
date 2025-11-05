@@ -174,10 +174,12 @@ As a project grows and more people get involved, it becomes harder to keep track
 ## HW Submission
 
 **HW Part A**
-Answer the following questions:
-- Fill in the blank: "Git provides a ... of content changes"
+Answer the following questio
+
+- Fill in the blank: "Git provides a history of content changes"
 
 - Which git command shows you the historical graphical representation of branching and merging events?
+git log --graph
 
 **HW Part B**
 
@@ -185,9 +187,11 @@ Answer the following questions:
 
 - Introduction Sequence — 4/4 complete:  
   _Attach image(s) here_
+![Introduction_Sequence_Completion](./images/Introduction_Sequence_Completion.png)
 
 - Push & Pull — Git Remotes! — 8/8 complete:  
   _Attach image(s) here_
+![Push_Pull_Completion](./images/Push_Pull_Completion.png)
 
 **HW Part C**
 

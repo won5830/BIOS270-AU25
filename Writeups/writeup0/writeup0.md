@@ -1,8 +1,8 @@
 # Write-up 0: template
 
-**Name:** Khoa Hoang  
-**Student ID:** khoang99  
-**Date:** 11/11/2025  
+**Name:** Jun Lee  
+**Student ID:** won5830  
+**Date:** 11/04/2025  
 
 ---
 
