@@ -1,0 +1,16 @@
+# Base image: includes Micromamba (a fast, minimal Conda) preinstalled
+FROM bioinfo_example:latest
+
+USER root
+
+# Install parasail
+RUN pip install --no-cache-dir parasail
+
+# reseek Binary Copy + add execution cpability + add to path
+RUN mkdir -p /opt/reseek
+COPY reseek-v2.7-linux-x86 /opt/reseek/reseek
+RUN chmod +x /opt/reseek/reseek
+
+ENV PATH="/opt/reseek:${PATH}"
+
+USER $MAMBA_USER
