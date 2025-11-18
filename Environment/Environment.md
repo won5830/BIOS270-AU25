@@ -126,7 +126,8 @@ singularity run `bioinfo_example_latest.sif`
 ```
 And test if everything runs well (python, R, rclone, etc...)
 
-Create an example `python` file in your `$SCRATCH` that prints "Hello World!" and execute the file with your singularity container. Can you run it? Why do you think this is the case? *(Hint: -B flag)*
+Create an example `python` file in your `$SCRATCH` that prints "Hello World!" and execute the file with your singularity container. Can you run it? Why do you think this is the case? *(Hint: -B flag)*  
+Yes. If we bind (-B) the image to specific folder, we can have access to local folder even with singularity container. 
 
 4. Writing your own `Dockerfile`
 
