@@ -46,17 +46,31 @@ The `--from-history` flag ensures that only explicitly installed packages are sa
 Compare the new YAML file (`bioinfo_example_latest.yaml`) with the original one. What changes do you notice?
 
 Answer the following questions:
-- What micromamba command can you use to list all created environemnts?
-- What micromamba command can you use to list all packages installed in a specific environment?
-- What micromamba command can you use to remove a package?
-- What micromamba command can you use to install a package from a specific channel?
-- What micromamba command can you use to remove an environment?
-
-
-
+- What micromamba command can you use to list all created environemnts?  
+```
+micromamba env list
+```
+- What micromamba command can you use to list all packages installed in a specific environment?  
+```
+micromamba list -n ENV_NAME
+```
+- What micromamba command can you use to remove a package?  
+```
+micromamba remove -n ENV_NAME PACKAGE_NAME
+```
+- What micromamba command can you use to install a package from a specific channel?  
+```
+micromamba install -n ENV_NAME -c CHANNEL_NAME PACKAGE_NAME
+```
+- What micromamba command can you use to remove an environment?  
+```
+micromamba env remove -n ENV_NAME
+```
 - What are all the `r-base` and `Bioconductor` packages that were installed in the `bioinfo_example` environment?
 *(Hint: You may want to use one of the commands from your answers to the above questions, and combine it with the `grep` command.)*
-
+```
+micromamba list -n ENV_NAME | grep -E '^[[:space]]*(r-base|bioconductor-)'
+```
 >Remember to push the updated environment file and example outputs to your GitHub repository. Include your output plots and any observations in your write-up.
 
 
@@ -164,3 +178,7 @@ singularity run -B /farmshare/users/[SUNetID],/farmshare/home/classes/bios/270 b
 You can use Google Colab IDE by clicking `Connect to a local runtime` and pasting the jupyter notebook URL above
 
 ![colab](./colab_localruntime.png)
+
+
+Below is the screenshot of running visual studio code through distributed docker image  
+![docker](VisualStudio.png)
