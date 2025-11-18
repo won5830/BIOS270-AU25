@@ -78,6 +78,8 @@ alias med='srun --pty -p normal --mem=32G --cpus-per-task=4 --time=2:00:00 bash'
 alias large='srun --pty -p normal --mem=64G --cpus-per-task=8 --time=4:00:00 bash'
 alias gpu='srun --pty -p gpu --gres=gpu:1 --mem=32G --cpus-per-task=4 --time=2:00:00 bash'
 ```
+Below is the screenshot of editted bash_profile
+![bash_profile](bash_profile.png) 
 
 ---
 
@@ -94,6 +96,8 @@ source ~/.bashrc
 # Test your installation
 micromamba --version
 ```
+Below is the screenshot of micromamba version
+![micromamba](micromamba_complete.png)
 
 ---
 
@@ -105,6 +109,10 @@ You’ll also need a place to store your container images. We'll practice pushin
 - [**Stanford GitLab**](https://gitlab.stanford.edu/): sign-in and create a new project named `containers`.  
 - [**Docker Hub**](https://hub.docker.com/signup): create an account.
 
+
+Below is the screenshot of docker account
+![docker](docker_profile.png)
+
 ---
 
 ## Tools for Managing Your Data
@@ -114,6 +122,9 @@ Set up [**Google Cloud Platform (GCP)**](https://cloud.google.com/) using your *
 - New users receive $300 in free credits.
 - You should have also received an email about redeeming a $50 credit coupon. Please use your Stanford email to redeem but apply the coupon to your **personal email account**
 - Create a new project named `BIOS270`
+
+Below is the screenshot of GCP
+![gcp_profile](GloudGCP_complete.png)
 
 
 ---
@@ -127,6 +138,10 @@ curl -s https://get.nextflow.io | bash
 # To confirm it's installed correctly
 nextflow info
 ```
+
+Below is the screenshot of nextflow info
+![nextflow_info](nextflow_complete.png)
+
 ---
 
 ## Tools for Machine Learning Projects
@@ -147,6 +162,10 @@ Save Colab compute units for Project 2.
 ### (Optional) **Weights & Biases**
 
 Create a [Weights & Biases account](https://wandb.ai/site/) to track your ML training metrics and experiment logs.
+
+
+Below is the screenshot of editted bash_profile
+![GCP](GloudGCP_complete.png)
 
 ---
 ## Warm-up: SLURM exercise
@@ -184,6 +203,16 @@ done < data.txt
 ```
 
 Answer the following questions in your `write-up`:
-1. How many slurm job will be submitted?
+1. How many slurm job will be submitted? 
+3 jobs will be submitted
 2. What is the purpose of the `if` statement?
+Distributing work (reading each line of txt) equally to SLURM jobs. 
 3. What is the expected output in each `*.out` file?
+```
+0: 12
+3: 8
+1: 7
+4: 27
+2: 91
+5: 30
+```
