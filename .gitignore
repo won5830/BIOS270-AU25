@@ -1,0 +1,15 @@
+Data/bacteria.db
+Data/all_protein_ids.txt
+# BIOS270 Data large / generated files
+Data/bacteria.db
+Data/all_protein_ids.txt
+Data/*.npy
+Data/__pycache__/
+Data/logs/
+Data/--database_path
+Data/--h5_path
+Data/--metric
+Data/--output_path
+Data/--record_id
+Data/ls
+Data/python

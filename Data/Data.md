@@ -86,7 +86,10 @@ sbatch create_bacteria_db.sh
 While the job is running, answer the following questions:
 
 - Examine `create_bacteria_db.sh`, how many tables will be created in the database?  
-- In the `insert_gff_table.py` script you submitted, explain the logic of using `try` and `except`. Why is this necessary?
+> 3 tables will be created in the database   
+
+- In the `insert_gff_table.py` script you submitted, explain the logic of using `try` and `except`. Why is this necesary?  
+The try/except loop lets the script retry df.to_sql when SQLite raises a “database is locked” error due to concurrent access, instead of crashing immediately. It sleeps briefly and tries again up to max_retries, but still re-raises any other unexpected database errors so real bugs are not silently ignored.  
 
 ```python
 while try_num < max_retries:
@@ -119,7 +122,9 @@ python query_bacteria_db.py --database_path <path to the bacteria.db created in 
 Record the runtime. You may stop the session early if it takes too long and only record the runtime of the first few iterations.
 
 Then, uncomment `db.index_record_ids()` in `query_bacteria_db.py` and note how the runtime changes.  
-Why do you think this is the case?
+Why do you think this is the case?  
+
+Calling db.index_record_ids() creates an index on the record_id column, so SQLite can look up matching rows without scanning the entire gff table every time. With the index in place, each query becomes much faster, so the overall runtime drops dramatically.
 
 ---
 
@@ -157,7 +162,9 @@ Explain why the following chunk configuration makes sense - what kind of data ac
 ```python
 chunk_size = 1000
 chunks = (chunk_size, n_features)
-```
+```  
+
+CHUNK_SIZE controls how many rows are read from SQLite and uploaded to BigQuery at a time. By processing the table in fixed-size chunks, the script avoids loading the entire dataset into memory and keeps each upload request to BigQuery manageable and reliable.
 
 ---
 
@@ -177,4 +184,6 @@ Save the resulting matrix as a `.npy` file.
 
 **Hints:**
 - You may import classes and functions from `query_bacteria_db.py`.
-- Consider creating a **dictionary** mapping between protein IDs and their indices in h5 dataset to avoid repeated lookups using `list.index()`.
+- Consider creating a **dictionary** mapping between protein IDs and their indices in h5 dataset to avoid repeated lookups using `list.index()`.  
+
+Done
