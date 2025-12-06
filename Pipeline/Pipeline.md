@@ -16,9 +16,10 @@ Today, we’ll learn how to build and manage pipelines using **SLURM** and **Nex
 ## SLURM Pipeline
 
 How could one add a differential expression analysis (DESeq2) step to the `rnaseq_pipeline_array_depend.sh` script such that DESeq2 runs only after all `salmon` jobs for all samples have completed?
-*(No code required - describe conceptually)*
+*(No code required - describe conceptually)*  
 
 One would submit all salmon quantification jobs as a single SLURM job array, capture the array job ID, and then submit a separate DESeq2 job with a dependency on the successful completion of that array. Conceptually, this is done by using --dependency=afterok:<salmon_array_jobid> so that the DESeq2 step only starts after all salmon jobs for all samples have finished without errors.
+
 ---
 
 ## Nextflow Pipeline
