@@ -13,36 +13,38 @@ Your proposal should include the following sections.
 ### 1. Project Overview
 
 - **Overarching goal**  
-  Clearly state the primary objective of the project.
+  Development of a deep-learning–based tool to resolve batch effects in flow and mass cytometry
 
 - **Rationale**  
-  Explain why the project is important or interesting.  
-  What problem does it address, and why is it worth solving?
+  Flow and mass cytometry are widely used single-cell assays, but the measured fluorescence intensity depends on the specific cytometer and fluorochromes used. As a result, ML or DL models trained on data from a single site often fail to generalize to other datasets because of batch effects. If this batch-effect problem can be resolved, it would become possible to develop universal models that apply across cytometers, laboratories, and experimental conditions, thereby streamlining flow cytometry analysis such as autogating.
 
 - **Specific aims** (at least two)  
-  For each aim, provide:
-  - A clear **aim statement**  
-  - **Expected outcomes** - what you hope to demonstrate or achieve  
-  - **Potential challenges** and how you plan to address them  
+  1)  
+  - **Aim 1**: Develop a model that mitigates batch effects in cytometry data while minimizing loss of underlying biological information.  
+  - **Expected outcome**: Substantial reduction of batch effects across FCS files, enabling more consistent cross-batch analysis.  
+  - ** Potential Challenge**: Balancing batch-effect correction against preservation of biological signal, and avoiding over-smoothing or loss of rare populations.  
+  2)  
+  - **Aim 2**:   
+  - **Expected outcomes**: Robust integration of flow cytometry data regardless of marker panel differences.  
+  - **Potential challenges**: Accurately predicting missing marker expression from a limited set of partially non-orthogonal observed markers.  
 
 
-### 2. Data
+### 2. Datac
 
 Describe the dataset you will work with and how you plan to manage it.
 
 - **Dataset description**
-  - **Source** (e.g., public repository, lab-generated, simulated, etc.)
-  - **Size** (number of samples, features, storage)
-  - **Format** (CSV, FASTQ, images, JSON, Parquet, etc.)
+  - **Source**: Flow cytometer dataset from Openrepository and immport.
+  - **Size**: ~1k of fcs files, 10~20 features, 1 mil ~ 1 bil of cells per each fcs file. 
+  - **Format**: .fcs format
 
 - **Data suitability**
-  - Is the current format optimal for downstream processing?
-  - What transformations or preprocessing steps will be necessary?
+  - Should be converted to easy extractable matrix format. Raw fcs file should be reformatted to tabular format like hdf5
 
 - **Storage and data management**
-  - Where will you store the dataset?
-  - How will you back it up?
-  - How will you share it with collaborators if needed?
+  - Where will you store the dataset?: GCP platform
+  - How will you back it up?: rclone
+  - How will you share it with collaborators if needed?: Granting access to GCP
 
 
 ### 3. Environment
@@ -50,17 +52,14 @@ Describe the dataset you will work with and how you plan to manage it.
 Document how your computational environment will be set up.
 
 - **Coding environment**
-  - Local machine? HPC? Jupyter notebook? code-server?
+  - Local machine
 
 - **Dependencies**
-  - Key packages, libraries, or tools required for your analysis.
+  - Flowkiy, Pytorch, Numpy and etc.
 
 - **Reproducibility**
   - How will you ensure others can rerun your analysis?
-    - Version control  
-    - Requirements file / environment.yml  
-    - Containerization  
-
+    - Version control with environment.yaml
 
 ### 4. Pipeline
 
@@ -78,16 +77,16 @@ Describe the sequence of steps your analysis will follow.
 Brainstorm an ML task that can be performed on your data
 
 - **Task definition**  
-  What is the supervised or unsupervised learning problem that appropriate for your data?
+  For batch-effect mitigation training model should be trained without supervision while for feature imputation model should be trained with supervision. 
 
 - **Feature representation**  
-  How will you convert raw data into numerical form suitable for modeling?
+  Tabular dataset with rows representing each cell and column representing each marker. 
 
 - **Model selection**  
-  Which model(s) will you apply and why?
+  Masked-Graph variable autoencoder. 
 
 - **Generalization strategy** (for supervised learning)  
-  How will you ensure your model performs well on unseen data?
+  Using optimal transport theorem for feature matching 
 
 - **Evaluation metrics**  
-  What metrics will you track? Why are they appropriate for your task?
+  Batch effect evaluation marker like iLISI, Silhouette label, Leiden ARI, Leiden NMI, KBET, Graph connectivity and etc... 
