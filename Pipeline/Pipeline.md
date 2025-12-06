@@ -18,6 +18,7 @@ Today, we’ll learn how to build and manage pipelines using **SLURM** and **Nex
 How could one add a differential expression analysis (DESeq2) step to the `rnaseq_pipeline_array_depend.sh` script such that DESeq2 runs only after all `salmon` jobs for all samples have completed?
 *(No code required - describe conceptually)*
 
+One would submit all salmon quantification jobs as a single SLURM job array, capture the array job ID, and then submit a separate DESeq2 job with a dependency on the successful completion of that array. Conceptually, this is done by using --dependency=afterok:<salmon_array_jobid> so that the DESeq2 step only starts after all salmon jobs for all samples have finished without errors.
 ---
 
 ## Nextflow Pipeline
@@ -35,11 +36,40 @@ Command for indexing a reference transcriptome:
 salmon index -t <transcriptome.fa> -i <output_index_dir>
 ```
 
+Updated as follows  
+```bash
+process SALMON_INDEX {
+    input:
+      path transcriptome_fa
+    output:
+      path 'salmon_index'
+
+    """
+    salmon index -t ${transcriptome_fa} -i salmon_index
+    """
+}
+```
+
 Modify your pipeline such that:
 
 1. If the user provides `index` in `params.yaml`, use `index` directly as input for `SALMON` process, skip `SALMON_INDEX`.  
 2. If `index` is **not provided**, but `transcriptome` is, run `SALMON_INDEX` to build index and used the output index directory as input to `SALMON`.  
 3. If **neither** parameter is provided, exit with an informative error message.
+
+Updated as follows  
+```bash
+
+if( params.index ) {
+    index_ch = Channel.value( file(params.index) )
+}
+else if( params.transcriptome ) {
+    def transcriptome_ch = Channel.value( file(params.transcriptome) )
+    index_ch = SALMON_INDEX(transcriptome_ch)
+}
+else {
+    error "You must provide either 'index' or 'transcriptome' in params.yaml"
+}
+```
 
 ---
 
@@ -83,3 +113,6 @@ In a `tmux` session, run
 # cd rnaseq_nf
 nextflow run rnaseq.nf -params-file configs/params.yaml -c configs/nextflow.config -profile slurm -resume
 ```
+Done 
+
+

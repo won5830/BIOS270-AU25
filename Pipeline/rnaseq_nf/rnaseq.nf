@@ -6,7 +6,7 @@ nextflow.enable.dsl=2
 
 include { FASTQC } from './modules/qc/fastqc.nf'
 include { TRIMGALORE } from './modules/qc/trimgalore.nf'
-include { SALMON } from './modules/pseudoalign/salmon.nf'
+include { SALMON; SALMON_INDEX } from './modules/pseudoalign/salmon.nf'
 include { DESEQ2 } from './modules/diffexp/deseq2.nf'
 
 // -------------------- Channels --------------------
@@ -18,13 +18,26 @@ samples_ch = samplesheet_ch.splitCsv(header:true).map { row ->
     tuple(row.sample.trim(), file(row.read1.trim(), absolute: true), file(row.read2.trim(), absolute:true), row.condition.trim())
 }
 
+def index_ch
+
+if( params.index ) {
+    index_ch = Channel.value( file(params.index) )
+}
+else if( params.transcriptome ) {
+    transcriptome_ch = Channel.value( file(params.transcriptome) )
+    index_ch = SALMON_INDEX(transcriptome_ch)
+}
+else {
+    error "You must provide either 'index' or 'transcriptome' in params.yaml"
+}
 
 // -------------------- Workflow --------------------
 
 workflow {
     FASTQC(samples_ch)
     trimmed_ch = TRIMGALORE(samples_ch)
-    quant_ch   = SALMON(trimmed_ch, params.index)
+    quant_ch = SALMON(trimmed_ch, index_ch)
+    // quant_ch   = SALMON(trimmed_ch, params.index)
 
     if( params.run_deseq ) {
         // Collect all Salmon outputs into a map {sample: quant_path}

@@ -17,3 +17,26 @@ process SALMON {
                    -o salmon_outs
       """
 }
+
+
+process SALMON_INDEX {
+
+    tag "salmon_index"
+
+    input:
+      path transcriptome_fa   
+
+    output:
+      path 'salmon_index'     
+
+    script:
+      """
+      set -euo pipefail
+
+      salmon index \
+        -t "${transcriptome_fa}" \
+        -i salmon_index \
+        -p ${task.cpus}
+      """
+}
+
