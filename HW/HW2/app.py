@@ -5,6 +5,11 @@ from utils import clean_seq, chunk_lines
 from align import compute_alignment, alignment_stats
 
 # ---------------- Streamlit App ----------------
+st.image(
+    "https://github.com/khoa-yelo/BIOS270-AU25/blob/main/Writeups/writeup0/snyderlab.png?raw=true",
+    width=150
+)
+
 st.set_page_config(page_title="Pairwise Sequence Aligner", layout="wide")
 st.title("Pairwise Sequence Aligner")
 
@@ -89,6 +94,10 @@ if align_clicked:
                     title="Per-position match profile",
                 )
                 st.plotly_chart(fig, use_container_width=True)
+                # TODO Update 
+                fig = px.histogram(vals, nbins=10, title="Distribution of Match Values (Match=1, Mismatch=0)")
+                st.plotly_chart(fig, use_container_width=True)
+
             else:
                 st.info("No comparable (non-gap) positions to plot.")
 
